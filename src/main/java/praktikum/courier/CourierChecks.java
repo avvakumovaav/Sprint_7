@@ -80,7 +80,7 @@ public class CourierChecks {
     }
 
     @Step("Проверка неуспешного логина курьера при отсутствии логина или пароля в запросе")
-    public void checkLoginWithNullUserFailed(ValidatableResponse response) {
+    public void checkLoginWithNullLoginOrPasswordFailed(ValidatableResponse response) {
         var body = response
                 .assertThat()
                 .statusCode(HTTP_BAD_REQUEST)

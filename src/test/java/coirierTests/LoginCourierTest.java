@@ -26,7 +26,7 @@ public class LoginCourierTest {
     }
 
     @Test
-    @DisplayName("Успешный логин курьера")
+    @DisplayName("Успешная авторизация курьера")
     public void successLoginCourier() {
         var courier = Courier.random();
         courierClient.createCourier(courier);
@@ -37,11 +37,39 @@ public class LoginCourierTest {
     }
 
     @Test
-    @DisplayName("Логин под несуществующим пользователем")
-    public void cannotLoginWithNotExistedUser() {
+    @DisplayName("Ошибка авторизации курьера без логина")
+    public void cannotLoginWithoutLogin() {
+        var courier = Courier.withoutLogin();
+        var creds = CourierCredentials.fromCourier(courier);
+        ValidatableResponse loginResponse = courierClient.logIn(creds);
+        courierChecks.checkLoginWithNullLoginOrPasswordFailed(loginResponse);
+    }
+
+    @Test
+    @DisplayName("Ошибка авторизации курьера без пароля")
+    public void cannotLoginWithoutPassword() {
         var courier = Courier.withoutPassword();
         var creds = CourierCredentials.fromCourier(courier);
         ValidatableResponse loginResponse = courierClient.logIn(creds);
+        courierChecks.checkLoginWithNullLoginOrPasswordFailed(loginResponse);
+    }
+
+    @Test
+    @DisplayName("Логин под несуществующим пользователем")
+    public void cannotLoginWithNotExistedUser() {
+        // создать курьера
+        var courier = Courier.random();
+        courierClient.createCourier(courier);
+        var creds = CourierCredentials.fromCourier(courier);
+        // залогониться, получить id
+        ValidatableResponse loginResponse = courierClient.logIn(creds);
+        courierId = courierChecks.checkLoggedIn(loginResponse);
+        // удалить курьера
+        ValidatableResponse response = courierClient.delete(courierId);
+        courierId = 0;
+
+        // логин под удаленным курьером
+        loginResponse = courierClient.logIn(creds);
         courierChecks.checkLoginWithNotExistedUserFailed(loginResponse);
     }
 
@@ -50,36 +78,9 @@ public class LoginCourierTest {
     public void cannotLoginWithIncorrectPassword() {
         var courier = Courier.random();
         courierClient.createCourier(courier);
-        var creds = CourierCredentials.fromCourier(courier);
-        courier.setPassword("11111");
+        var creds = new CourierCredentials(courier.getLogin(), "11111");
 
         ValidatableResponse loginResponse = courierClient.logIn(creds);
         courierChecks.checkLoginWithNotExistedUserFailed(loginResponse);
     }
-
-    @Test
-    @DisplayName("Создание курьера без пароля из объекта класса Courier")
-    public void cannotCreateWithoutPasswordFromClassObject() {
-        var courier = Courier.withoutPassword();
-        ValidatableResponse createResponse = courierClient.createCourier(courier);
-        courierChecks.checkLoginWithNullUserFailed(createResponse);
-    }
-
-    @Test
-    @DisplayName("Создание курьера без пароля из json-файла")
-    public void cannotCreateWithoutPasswordFromJsonFile() {
-        File json = new File("src/test/resources/brokenCourier.json");
-        ValidatableResponse createResponse = courierClient.createCourier(json);
-        courierChecks.checkCreateWithoutRequiredFieldsFailed(createResponse);
-    }
-
-    @Test
-    @DisplayName("Создание курьера без логина из объекта класса Courier")
-    public void cannotCreateWithoutLoginFromClassObject() {
-        var courier = Courier.withoutLogin();
-        ValidatableResponse createResponse = courierClient.createCourier(courier);
-        courierChecks.checkCreateWithoutRequiredFieldsFailed(createResponse);
-    }
-
-
 }

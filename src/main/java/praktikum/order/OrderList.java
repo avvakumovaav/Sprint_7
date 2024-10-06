@@ -9,16 +9,19 @@ public class OrderList {
     public OrderList() {
     }
 
-    public OrderList(int courierId) {
-        this.courierId = courierId;
-    }
-
     public OrderList(int courierId, String nearestStation, int limit, int page) {
         this.courierId = courierId;
         this.nearestStation = nearestStation;
         this.limit = limit;
         this.page = page;
     }
+
+
+    public OrderList(int courierId) {
+        this.courierId = courierId;
+    }
+
+
 
     public int getCourierId() {
         return courierId;

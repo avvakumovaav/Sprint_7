@@ -29,9 +29,8 @@ public class OrderChecks {
         var getOrderList = response
                 .assertThat()
                 .statusCode(HTTP_OK)
-                .extract()
-                .path("orders");
+                .extract().body().as(ReturnOrderList.class);
+
         assertNotNull(getOrderList);
-        assertTrue(getOrderList instanceof ArrayList);
     }
 }

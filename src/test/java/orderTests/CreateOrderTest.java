@@ -16,8 +16,6 @@ public class CreateOrderTest {
     private final OrderClient orderClient = new OrderClient();
     private final OrderChecks orderChecks = new OrderChecks();
 
-    String track;
-
     private String[] color;
 
     public CreateOrderTest(String[] color) {

@@ -3,6 +3,10 @@ package praktikum.order;
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static org.junit.Assert.*;
@@ -18,5 +22,16 @@ public class OrderChecks {
 
         assertNotNull(track);
         return track;
+    }
+
+    @Step("Проверка получения списка заказов")
+    public void checkGetOrderList(ValidatableResponse response) {
+        var getOrderList = response
+                .assertThat()
+                .statusCode(HTTP_OK)
+                .extract()
+                .path("orders");
+        assertNotNull(getOrderList);
+        assertTrue(getOrderList instanceof ArrayList);
     }
 }

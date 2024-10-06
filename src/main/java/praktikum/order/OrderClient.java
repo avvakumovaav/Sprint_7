@@ -4,6 +4,8 @@ import io.restassured.response.ValidatableResponse;
 import praktikum.Client;
 import praktikum.courier.Courier;
 
+import java.io.File;
+
 public class OrderClient extends Client {
     private static final String ORDER_PATH = "orders";
 
@@ -13,6 +15,15 @@ public class OrderClient extends Client {
                 .body(order)
                 .when()
                 .post(ORDER_PATH)
+                .then().log().all();
+    }
+
+    @Step("Получить список заказов")
+    public ValidatableResponse getOrderList(OrderList orderList) {
+        return spec()
+                .body(orderList)
+                .when()
+                .get(ORDER_PATH)
                 .then().log().all();
     }
 }

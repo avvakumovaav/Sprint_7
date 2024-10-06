@@ -11,6 +11,7 @@ import praktikum.Client;
 public class CourierClient extends Client {
     private static final String COURIER_PATH = "courier";
 
+    @Step("Авторизация курьера")
     public ValidatableResponse logIn(CourierCredentials courierCredentials) {
         return spec()
                 .body(courierCredentials)

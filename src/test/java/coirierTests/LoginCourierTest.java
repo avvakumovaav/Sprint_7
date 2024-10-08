@@ -9,8 +9,6 @@ import praktikum.courier.CourierChecks;
 import praktikum.courier.CourierClient;
 import praktikum.courier.CourierCredentials;
 
-import java.io.File;
-
 public class LoginCourierTest {
     private final CourierClient courierClient = new CourierClient();
     private final CourierChecks courierChecks = new CourierChecks();

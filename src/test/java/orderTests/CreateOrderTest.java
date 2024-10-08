@@ -9,8 +9,6 @@ import praktikum.order.Order;
 import praktikum.order.OrderChecks;
 import praktikum.order.OrderClient;
 
-import java.util.List;
-
 @RunWith(Parameterized.class)
 public class CreateOrderTest {
     private final OrderClient orderClient = new OrderClient();

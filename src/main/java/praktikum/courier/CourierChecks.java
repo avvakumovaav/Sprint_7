@@ -39,7 +39,7 @@ public class CourierChecks {
                 .body().as(Map.class);
 
         assertEquals("Недостаточно данных для создания учетной записи", body.get("message"));
-        assertEquals(Set.of("message"), body.keySet());
+        assertEquals(Set.of("code", "message"), body.keySet());
     }
 
     @Step("Проверка неуспешного добавления курьера с повторяющимся логином")
@@ -51,7 +51,7 @@ public class CourierChecks {
                 .body().as(Map.class);
 
         assertEquals("Этот логин уже используется", body.get("message"));
-        assertEquals(Set.of("message"), body.keySet());
+        assertEquals(Set.of("code", "message"), body.keySet());
     }
 
     @Step("Проверка логина курьера")
@@ -76,7 +76,7 @@ public class CourierChecks {
                 .body().as(Map.class);
 
         assertEquals("Учетная запись не найдена", body.get("message"));
-        assertEquals(Set.of("message"), body.keySet());
+        assertEquals(Set.of("code","message"), body.keySet());
     }
 
     @Step("Проверка неуспешного логина курьера при отсутствии логина или пароля в запросе")
@@ -88,6 +88,6 @@ public class CourierChecks {
                 .body().as(Map.class);
 
         assertEquals("Недостаточно данных для входа", body.get("message"));
-        assertEquals(Set.of("message"), body.keySet());
+        assertEquals(Set.of("code", "message"), body.keySet());
     }
     }

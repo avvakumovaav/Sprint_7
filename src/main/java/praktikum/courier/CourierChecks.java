@@ -50,7 +50,7 @@ public class CourierChecks {
                 .extract()
                 .body().as(Map.class);
 
-        assertEquals("Этот логин уже используется", body.get("message"));
+        assertEquals("Этот логин уже используется. Попробуйте другой.", body.get("message"));
         assertEquals(Set.of("code", "message"), body.keySet());
     }
 
